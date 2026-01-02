@@ -1,7 +1,9 @@
 import { MongoClient, Db } from 'mongodb';
 
 if (!process.env.MONGODB_URI) {
-  throw new Error('Please add your Mongo URI to .env.local');
+  throw new Error(
+    'Please add your Mongo URI to .env.local (for local development) or Vercel Environment Variables (for production)'
+  );
 }
 
 const uri: string = process.env.MONGODB_URI;
