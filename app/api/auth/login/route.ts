@@ -42,10 +42,13 @@ export async function POST(request: NextRequest) {
     };
 
     return NextResponse.json({ user: userResponse }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        message: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     );
   }
