@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expense Tracker
+
+A modern, feature-rich expense tracking application built with Next.js, TypeScript, React, and MongoDB.
+
+## Features
+
+- ✅ User Authentication (Login/Register)
+- ✅ Add, edit, and delete expenses
+- ✅ Categorize expenses (Food, Transport, Shopping, Bills, Entertainment, Health, Education, Other)
+- ✅ Filter expenses by category
+- ✅ View expense summary with statistics
+- ✅ Monthly analysis with trends and comparisons
+- ✅ Track expenses by date
+- ✅ Category-wise expense breakdown
+- ✅ MongoDB database integration
+- ✅ Password hashing with bcrypt
+- ✅ Responsive design
+- ✅ Modern dark theme (Black, Gray, Silver)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ installed
+- npm or yarn package manager
+- MongoDB Atlas account (or local MongoDB)
+
+### Installation
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Create `.env.local` file in the root directory:
+```env
+MONGODB_URI=your_mongodb_connection_string
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+expense-tracker/
+├── app/
+│   ├── api/
+│   │   ├── auth/
+│   │   │   ├── login/route.ts
+│   │   │   └── register/route.ts
+│   │   └── expenses/
+│   │       ├── route.ts
+│   │       └── [id]/route.ts
+│   ├── components/
+│   │   ├── ExpenseForm/      # Form for adding/editing expenses
+│   │   ├── ExpenseList/       # List of all expenses
+│   │   ├── ExpenseSummary/   # Summary statistics
+│   │   └── MonthlyAnalysis/  # Monthly analysis
+│   ├── context/
+│   │   ├── AuthContext.tsx  # Authentication state
+│   │   └── ExpenseContext.tsx # Expense state
+│   ├── login/                # Login/Register page
+│   ├── types/                # TypeScript types
+│   ├── utils/                # Utility functions
+│   ├── globals.css           # Global styles
+│   ├── layout.tsx            # Root layout
+│   └── page.tsx              # Main page
+├── lib/
+│   └── mongodb.ts            # MongoDB connection
+├── .env.local               # Environment variables
+└── package.json
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type safety
+- **MongoDB** - Database
+- **bcryptjs** - Password hashing
+- **React Context API** - State management
+- **CSS Modules** - Scoped styling
+- **React Icons** - Icon library
 
-## Deploy on Vercel
+## API Routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Expenses
+- `GET /api/expenses` - Get all expenses for logged-in user
+- `POST /api/expenses` - Create new expense
+- `PUT /api/expenses/[id]` - Update expense
+- `DELETE /api/expenses/[id]` - Delete expense
+
+## Database Schema
+
+### Users Collection
+```javascript
+{
+  _id: ObjectId,
+  name: String,
+  email: String (unique),
+  password: String (hashed),
+  createdAt: Date
+}
+```
+
+### Expenses Collection
+```javascript
+{
+  _id: ObjectId,
+  userId: String,
+  title: String,
+  amount: Number,
+  category: String,
+  date: String,
+  description: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+## Usage
+
+1. **Register**: Go to `/login`, click "Register", and create your account
+2. **Login**: Use your email and password to login
+3. **Add Expense**: Click "Add Expense" button and fill in the form
+4. **Edit Expense**: Click the edit icon on any expense item
+5. **Delete Expense**: Click the delete icon on any expense item
+6. **Filter Expenses**: Use the category filter dropdown
+7. **View Summary**: Check the summary section for statistics
+8. **Monthly Analysis**: View monthly trends and breakdowns
+
+## Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+## Security Notes
+
+- Passwords are hashed using bcryptjs before storing in database
+- User authentication required for all expense operations
+- Each user can only access their own expenses
+- API routes validate user ID from headers
+
+## License
+
+MIT
